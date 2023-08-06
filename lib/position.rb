@@ -52,9 +52,9 @@ class Position
 
   def next_position(direction)
     case direction
-    when TOP_LEFT     then Position.new(row - 1, col - 1)
+    when TOP_LEFT     then Position.new(row - 1, col + 1)
     when TOP          then Position.new(row - 1, col)
-    when TOP_RIGHT    then Position.new(row - 1, col + 1)
+    when TOP_RIGHT    then Position.new(row - 1, col - 1)
     when LEFT         then Position.new(row,     col - 1)
     when RIGHT        then Position.new(row,     col + 1)
     when BOTTOM_LEFT  then Position.new(row + 1, col - 1)

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative './position'
+require 'debug'
 
 module ReversiMethods
   WHITE_STONE = 'W'
@@ -41,6 +42,7 @@ module ReversiMethods
   end
 
   def put_stone(board, cell_ref, stone_color, dry_run: false)
+    # binding.break
     pos = Position.new(cell_ref)
     raise '無効なポジションです' if pos.invalid?
     raise 'すでに石が置かれています' unless pos.stone_color(board) == BLANK_CELL
