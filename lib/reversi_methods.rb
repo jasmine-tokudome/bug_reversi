@@ -42,7 +42,6 @@ module ReversiMethods
   end
 
   def put_stone(board, cell_ref, stone_color, dry_run: false)
-    # binding.break
     pos = Position.new(cell_ref)
     raise '無効なポジションです' if pos.invalid?
     raise 'すでに石が置かれています' unless pos.stone_color(board) == BLANK_CELL
@@ -77,10 +76,11 @@ module ReversiMethods
   end
 
   def finished?(board)
-    !placeable?(board, WHITE_STONE) && !placeable?(board, BLACK_STONE)
+    placeable?(board, WHITE_STONE) && placeable?(board,BLACK_STONE)
   end
 
   def placeable?(board, attack_stone_color)
+    # binding.break
     board.each_with_index do |cols, row|
       cols.each_with_index do |cell, col|
         next unless cell == BLANK_CELL
