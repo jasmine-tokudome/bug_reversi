@@ -76,11 +76,11 @@ module ReversiMethods
   end
 
   def finished?(board)
-    placeable?(board, WHITE_STONE) && placeable?(board,BLACK_STONE)
+    # binding.break
+    !placeable?(board, WHITE_STONE) && !placeable?(board,BLACK_STONE)
   end
 
   def placeable?(board, attack_stone_color)
-    # binding.break
     board.each_with_index do |cols, row|
       cols.each_with_index do |cell, col|
         next unless cell == BLANK_CELL
