@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative './position'
-require 'debug'
 
 module ReversiMethods
   WHITE_STONE = 'W'
@@ -59,7 +58,6 @@ module ReversiMethods
     copy_board(board, copied_board) if !dry_run && turn_succeed
 
     turn_succeed
-
   end
 
   def turn(board, target_pos, attack_stone_color, direction)
@@ -92,7 +90,6 @@ module ReversiMethods
       end
     end
   end
-
 
   def count_stone(board, stone_color)
     board.flatten.count { |cell| cell == stone_color }
