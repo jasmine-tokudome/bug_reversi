@@ -51,7 +51,6 @@ module ReversiMethods
     copied_board[pos.row][pos.col] = stone_color
 
     turn_succeed = false
-
     Position::DIRECTIONS.each do |direction|
       next_pos = pos.next_position(direction)
       turn_succeed = true if turn(copied_board, next_pos, stone_color, direction)
@@ -60,27 +59,30 @@ module ReversiMethods
     copy_board(board, copied_board) if !dry_run && turn_succeed
 
     turn_succeed
+
   end
 
   def turn(board, target_pos, attack_stone_color, direction)
     return false if target_pos.out_of_board?
-    return false if target_pos.stone_color(board) == attack_stone_color
+    return false if (target_pos.stone_color(board) == attack_stone_color || target_pos.stone_color(board) == BLANK_CELL)
 
     next_pos = target_pos.next_position(direction)
-    if (next_pos.stone_color(board) == attack_stone_color) || turn(board, next_pos, attack_stone_color, direction)
+    if next_pos.stone_color(board) != BLANK_CELL
+    if next_pos.stone_color(board) == attack_stone_color || turn(board, next_pos, attack_stone_color, direction)
       board[target_pos.row][target_pos.col] = attack_stone_color
-      true
-    else
-      false
+    end
     end
   end
 
   def finished?(board)
-    # binding.break
-    !placeable?(board, WHITE_STONE) && !placeable?(board,BLACK_STONE)
+    !placeable?(board, WHITE_STONE) && !placeable?(board, BLACK_STONE)
   end
 
   def placeable?(board, attack_stone_color)
+    return false unless board.flatten.join('').include?("-")
+    color_stones = board.flatten.join('').delete("-")
+    return false unless color_stones.include?("W") && color_stones.include?("B")
+
     board.each_with_index do |cols, row|
       cols.each_with_index do |cell, col|
         next unless cell == BLANK_CELL
@@ -90,6 +92,7 @@ module ReversiMethods
       end
     end
   end
+
 
   def count_stone(board, stone_color)
     board.flatten.count { |cell| cell == stone_color }
