@@ -62,13 +62,14 @@ module ReversiMethods
 
   def turn(board, target_pos, attack_stone_color, direction)
     return false if target_pos.out_of_board?
-    return false if (target_pos.stone_color(board) == attack_stone_color || target_pos.stone_color(board) == BLANK_CELL)
+    return false if target_pos.stone_color(board) == attack_stone_color
 
     next_pos = target_pos.next_position(direction)
-    if next_pos.stone_color(board) != BLANK_CELL
-    if next_pos.stone_color(board) == attack_stone_color || turn(board, next_pos, attack_stone_color, direction)
+    if (next_pos.stone_color(board) == attack_stone_color) || turn(board, next_pos, attack_stone_color, direction)
       board[target_pos.row][target_pos.col] = attack_stone_color
-    end
+      true
+    else
+      false
     end
   end
 
@@ -77,10 +78,6 @@ module ReversiMethods
   end
 
   def placeable?(board, attack_stone_color)
-    return false unless board.flatten.join('').include?("-")
-    color_stones = board.flatten.join('').delete("-")
-    return false unless color_stones.include?("W") && color_stones.include?("B")
-
     board.each_with_index do |cols, row|
       cols.each_with_index do |cell, col|
         next unless cell == BLANK_CELL
